@@ -30,8 +30,12 @@ const manifest = {
                     reporters: {
                         myConsoleReporter: [
                             {
-                                module: '@hapi/good-squeeze',
-                                name: 'Squeeze',
+                                // rousr-mod: using the require format instead
+                                // of the commented out original due to:
+                                // https://github.com/hapijs/good/issues/602
+                                module: require('@hapi/good-squeeze').Squeeze,
+                                // module: '@hapi/good-squeeze',
+                                // name: 'Squeeze',
                                 args: [{
                                     error: '*',
                                     log: '*',
@@ -40,7 +44,11 @@ const manifest = {
                                 }]
                             },
                             {
-                                module: '@hapi/good-console',
+                                // rousr-mod: using the require format instead
+                                // of the commented out original due to:
+                                // https://github.com/hapijs/good/issues/602
+                                module: require('@hapi/good-console'),
+                                // module: '@hapi/good-console',
                                 args: [{
                                     color: {
                                         $filter: 'env',
