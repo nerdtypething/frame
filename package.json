@@ -43,7 +43,9 @@
     "slug": "1.x.x",
     "useragent": "2.x.x",
     "uuid": "3.x.x",
-    "@hapi/vision": "5.x.x"
+    "@hapi/vision": "5.x.x",
+    "rousr-shared": "file:../../rousr-shared",
+    "randomatic": "^3.0.0"
   },
   "devDependencies": {
     "@hapi/code": "5.x.x",
