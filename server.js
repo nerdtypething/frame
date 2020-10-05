@@ -3,9 +3,7 @@
 const Glue = require('@hapi/glue');
 const Manifest = require('./manifest');
 
-
 process.on('unhandledRejection', (reason, promise) => {
-
     console.error(`Unhandled Rejection at: ${promise} reason: ${reason}`);
 });
 
