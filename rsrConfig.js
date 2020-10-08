@@ -10,6 +10,8 @@ const criteria = {
     rsrApiImplementation: process.env.RSR_API_IMP
 };
 
+// rousr-mod: added an options object to the hapiMongoModels.mongodb object
+// see: https://mongoosejs.com/docs/deprecations.html
 const config = {
     $meta: 'This file configures the plot device.',
     projectName: 'Rousr',
@@ -55,7 +57,8 @@ const config = {
                     dev: 'projectwoke',
                     $default: 'projectwoke'
                 }
-            }
+            },
+            options: {useUnifiedTopology: true}
         },
         autoIndex: false
     },
