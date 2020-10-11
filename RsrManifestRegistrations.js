@@ -136,22 +136,6 @@ class RsrManifestRegistrations {
                 }
             },
             {
-                plugin: 'hapi-mongo-models',
-                options: {
-                    mongodb: Config.get('/hapiMongoModels/mongodb'),
-                    models: [
-                        Path.resolve(__dirname, './server/models/account'),
-                        Path.resolve(__dirname, './server/models/admin-group'),
-                        Path.resolve(__dirname, './server/models/admin'),
-                        Path.resolve(__dirname, './server/models/auth-attempt'),
-                        Path.resolve(__dirname, './server/models/session'),
-                        Path.resolve(__dirname, './server/models/status'),
-                        Path.resolve(__dirname, './server/models/user')
-                    ],
-                    autoIndex: Config.get('/hapiMongoModels/autoIndex')
-                }
-            },
-            {
                 plugin: './server/auth'
             },
             {
