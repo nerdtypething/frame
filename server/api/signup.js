@@ -2,7 +2,8 @@
 
 const Account = require('../models/account');
 const Boom = require('@hapi/boom');
-const Config = require('../../config');
+// rousr-mod: using rsrConfigs
+const Config = require('../../rsrConfig');
 const Joi = require('@hapi/joi');
 const Mailer = require('../mailer');
 const Session = require('../models/session');
@@ -23,8 +24,9 @@ const register = function (server, serverOptions) {
                 payload: {
                     name: Joi.string().required(),
                     email: Joi.string().email().lowercase().required(),
-                    username: Joi.string().token().lowercase().required(),
-                    password: Joi.string().required()
+                    username: Joi.string().email().lowercase().required(),
+                    password: Joi.string().required(),
+                    verificationCode: Joi.string().required()
                 }
             },
             pre: [{
@@ -82,7 +84,8 @@ const register = function (server, serverOptions) {
             };
 
             try {
-                await Mailer.sendEmail(emailOptions, 'welcome', request.payload);
+                // rousr-mod: changed to 'rousr-welcome'
+                await Mailer.sendEmail(emailOptions, 'rousr-welcome', request.payload);
             }
             catch (err) {
                 request.log(['mailer', 'error'], err);
@@ -109,6 +112,38 @@ const register = function (server, serverOptions) {
                 session,
                 authHeader
             };
+        }
+    });
+
+    // rsr-mod: added this POST for resendVerification
+    server.route({
+        method: 'POST',
+        path: '/api/resendVerification',
+        options: {
+            auth: false,
+            validate: {
+                payload: {
+                    email: Joi.string().email().lowercase().required(),
+                    verificationCode: Joi.string().required()
+                }
+            }
+        },
+        handler: async function (request, reply) {
+
+            const emailOptions = {
+                subject: 'Verify Your ' + Config.get('/projectName') + ' Account',
+                to: {
+                    name: request.payload.name,
+                    address: request.payload.email
+                }
+            };
+
+            try {
+                await Mailer.sendEmail(emailOptions, 'rousr-resend-verification', request.payload);
+            }
+            catch (err) {
+                request.log(['mailer', 'error'], err);
+            }
         }
     });
 };
