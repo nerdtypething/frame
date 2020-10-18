@@ -3,11 +3,15 @@
 const AuthAttempt = require('../models/auth-attempt');
 const Bcrypt = require('bcrypt');
 const Boom = require('@hapi/boom');
-const Config = require('../../config');
+// rousr-mod: using rsrConfig
+const Config = require('../../rsrConfig');
 const Joi = require('@hapi/joi');
 const Mailer = require('../mailer');
 const Session = require('../models/session');
 const User = require('../models/user');
+
+// rousr-mod: requiring rousr-shared shared config
+const rsrSharedConfig = require('rousr-shared').Config.SharedConfig;
 
 
 const register = function (server, serverOptions) {
@@ -125,11 +129,16 @@ const register = function (server, serverOptions) {
             // set reset token
 
             const keyHash = await Session.generateKeyHash();
+
+            // rousr-mod: using the rousr-shared reset password token expire
+            // value.
+            const msPerMinute = 60000;
+            const expiresInMins = rsrSharedConfig.get('/auth/reset_pw_token_expires_minutes')
             const update = {
                 $set: {
                     resetPassword: {
                         token: keyHash.hash,
-                        expires: Date.now() + 10000000
+                        expires: new Date(Date.now() + expiresInMins * msPerMinute)
                     }
                 }
             };
@@ -137,14 +146,18 @@ const register = function (server, serverOptions) {
             await User.findByIdAndUpdate(request.pre.user._id, update);
 
             // send email
-
+            // rousr-mod: using the rousr email template and adding
+            // the expires value
             const projectName = Config.get('/projectName');
             const emailOptions = {
                 subject: `Reset your ${projectName} password`,
                 to: request.payload.email
             };
-            const template = 'forgot-password';
-            const context = { key: keyHash.key };
+            const template = 'rousr-forgot-password';
+            const context = { 
+                key: keyHash.key,
+                keyExpireMins: expiresInMins
+            };
 
             await Mailer.sendEmail(emailOptions, template, context);
 
@@ -172,14 +185,41 @@ const register = function (server, serverOptions) {
                 assign: 'user',
                 method: async function (request, h) {
 
+                    // note: the original frame implementation
+                    // used a $gt parameter against the expiration date.
+                    // this didn't work since the date in mongo was an
+                    // ISO date and we were comparing against Date.now()
+                    // which seemed to have an incompatible format. 
+                    // https://stackoverflow.com/questions/2943222/find-objects-between-two-dates-mongodb
+                    // instead we just bring in the user object which
+                    // serializes the expiration date into a format compatible
+                    // with the JS Date object. then we can do our comparison
+                    // in code.
+                    // const query = {
+                    //     email: request.payload.email,
+                    //     'resetPassword.expires': { $gt: Date.now() }
+                    // };
+
                     const query = {
                         email: request.payload.email,
-                        'resetPassword.expires': { $gt: Date.now() }
                     };
+
                     const user = await User.findOne(query);
 
                     if (!user) {
                         throw Boom.badRequest('Invalid email or key.');
+                    }
+
+                    // rousr-mod: added this if
+                    if (user) {
+                        if (user.resetPassword == null) {
+                            return reply(Boom.badRequest('You can\'t reset your password at this time.'));
+                        }
+                        
+                        var keyExpirationDate = user.resetPassword.expires;
+                        if (keyExpirationDate <= Date.now()) {
+                            return reply(Boom.badRequest('Key has expired.'));
+                        }
                     }
 
                     return user;

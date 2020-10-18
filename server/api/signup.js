@@ -2,7 +2,7 @@
 
 const Account = require('../models/account');
 const Boom = require('@hapi/boom');
-// rousr-mod: using rsrConfigs
+// rousr-mod: using rsrConfig
 const Config = require('../../rsrConfig');
 const Joi = require('@hapi/joi');
 const Mailer = require('../mailer');

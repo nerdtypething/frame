@@ -44,7 +44,7 @@ const register = function (server, serverOptions) {
         }
     });
 
-
+    // rousr-mod: changed username validation from .token() to .email()
     server.route({
         method: 'POST',
         path: '/api/users',
@@ -57,7 +57,7 @@ const register = function (server, serverOptions) {
             },
             validate: {
                 payload: {
-                    username: Joi.string().token().lowercase().required(),
+                    username: Joi.string().email().lowercase().required(),
                     password: Joi.string().required(),
                     email: Joi.string().email().lowercase().required()
                 }
@@ -133,7 +133,7 @@ const register = function (server, serverOptions) {
         }
     });
 
-
+    // rousr-mod: changed username validation from .token() to .email()
     server.route({
         method: 'PUT',
         path: '/api/users/{id}',
@@ -150,7 +150,7 @@ const register = function (server, serverOptions) {
                 },
                 payload: {
                     isActive: Joi.boolean().required(),
-                    username: Joi.string().token().lowercase().required(),
+                    username: Joi.string().email().lowercase().required(),
                     email: Joi.string().email().lowercase().required()
                 }
             },
@@ -317,7 +317,7 @@ const register = function (server, serverOptions) {
         }
     });
 
-
+    // rousr-mod: changed username validation from .token() to .email()
     server.route({
         method: 'PUT',
         path: '/api/users/my',
@@ -330,7 +330,7 @@ const register = function (server, serverOptions) {
             },
             validate: {
                 payload: {
-                    username: Joi.string().token().lowercase().required(),
+                    username: Joi.string().email().lowercase().required(),
                     email: Joi.string().email().lowercase().required()
                 }
             },
