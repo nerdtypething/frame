@@ -1,6 +1,7 @@
 'use strict';
 
-const Config = require('../config');
+// rousr-mod: using rsrConfig
+const Config = require('../rsrConfig');
 const Fs = require('fs');
 const Handlebars = require('handlebars');
 const Hoek = require('@hapi/hoek');

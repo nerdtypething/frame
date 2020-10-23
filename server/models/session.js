@@ -6,8 +6,7 @@ const Joi = require('@hapi/joi');
 const MongoModels = require('mongo-models');
 const NewDate = require('joistick/new-date');
 const Useragent = require('useragent');
-const Uuid = require('uuid');
-
+const rando = require('randomatic');
 
 const schema = Joi.object({
     _id: Joi.object(),
@@ -65,7 +64,12 @@ class Session extends MongoModels {
 
     static async generateKeyHash() {
 
-        const key = Uuid.v4();
+        // rsr_mod: replaced Uuid.v4() with rando('A0', 6)
+        // const key = Uuid.v4();
+
+        // generate a six digit uppercase alphanumeric verification code 
+        // to be sent to frame so the welcome email will have access to it.
+        const key = rando('A0', 6);
         const salt = await Bcrypt.genSalt(10);
         const hash = await Bcrypt.hash(key, salt);
 
