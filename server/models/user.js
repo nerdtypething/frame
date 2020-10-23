@@ -8,7 +8,7 @@ const Joi = require('@hapi/joi');
 const MongoModels = require('mongo-models');
 const NewDate = require('joistick/new-date');
 
-
+// rousr-mod: changing username from .token() to .email()
 const schema = Joi.object({
     _id: Joi.object(),
     email: Joi.string().email().lowercase().required(),
@@ -29,7 +29,7 @@ const schema = Joi.object({
         })
     }).default(),
     timeCreated: Joi.date().default(NewDate(), 'time of creation'),
-    username: Joi.string().token().lowercase().required()
+    username: Joi.string().email().lowercase().required()
 });
 
 
@@ -41,11 +41,13 @@ class User extends MongoModels {
         Assert.ok(email, 'Missing email argument.');
 
         const passwordHash = await this.generatePasswordHash(password);
+
+        // rousr-mod: updated email and username to both append .toLowerCase()
         const document = new this({
-            email,
+            email: email.toLowerCase(),
             isActive: true,
             password: passwordHash.hash,
-            username
+            username: username.toLowerCase()
         });
         const users = await this.insertOne(document);
 
