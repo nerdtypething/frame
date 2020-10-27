@@ -138,38 +138,52 @@ class RsrManifestRegistrations {
             {
                 plugin: './server/auth'
             },
+            // rousr-mod: for each of the api plugins had to add the
+            // routes object in order to explicitly state our modified
+            // route base path.
             {
-                plugin: './server/api/accounts'
+                plugin: './server/api/accounts',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/admin-groups'
+                plugin: './server/api/admin-groups',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/admins'
+                plugin: './server/api/admins',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/contact'
+                plugin: './server/api/contact',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/main'
+                plugin: './server/api/main',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/login'
+                plugin: './server/api/login',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/logout'
+                plugin: './server/api/logout',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/sessions'
+                plugin: './server/api/sessions',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/signup'
+                plugin: './server/api/signup',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/statuses'
+                plugin: './server/api/statuses',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
-                plugin: './server/api/users'
+                plugin: './server/api/users',
+                routes: { prefix: Config.get('/api/prefix') }
             },
             {
                 plugin: './server/web/main'
