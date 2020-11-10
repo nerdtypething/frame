@@ -41,7 +41,6 @@ class RousrFrameSecured {
             }
         }
     
-        console.log(JSON.stringify(decryptObject));
         return decryptObject;
     }
 }

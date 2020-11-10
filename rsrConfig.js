@@ -7,11 +7,9 @@ const RousrFrameSecured = require('./RousrFrameSecured');
 Dotenv.config({ silent: true });
 
 // recall this path is relative to the current working directory
-// of whatever parent module the rousr-fork-frame-14 npm has been brought into.
-var frameSecureObject = new RousrFrameSecured('../rousr-shared/RousrData/Mongo/RsrMongoSwazz.json');
+// of this module (rousr-fork-frame-14).
+var frameSecureObject = new RousrFrameSecured('./RsrFrameSwazz.json');
 var frameSecureData = frameSecureObject.getSecureData();
-
-console.log('got frame secure object: ' + JSON.stringify(frameSecureData, 2, null));
 
 const criteria = {
     rsrConfig: process.env.RSR_CONFIG,
