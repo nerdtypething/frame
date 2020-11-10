@@ -2,8 +2,16 @@
 const Confidence = require('confidence');
 const Dotenv = require('dotenv');
 const rsrSharedConfig = require('rousr-shared').Config.SharedConfig;
+const RousrFrameSecured = require('./RousrFrameSecured');
 
 Dotenv.config({ silent: true });
+
+// recall this path is relative to the current working directory
+// of whatever parent module the rousr-fork-frame-14 npm has been brought into.
+var frameSecureObject = new RousrFrameSecured('../rousr-shared/RousrData/Mongo/RsrMongoSwazz.json');
+var frameSecureData = frameSecureObject.getSecureData();
+
+console.log('got frame secure object: ' + JSON.stringify(frameSecureData, 2, null));
 
 const criteria = {
     rsrConfig: process.env.RSR_CONFIG,
@@ -67,8 +75,8 @@ const config = {
         port: 465,
         secure: true,
         auth: {
-            user: 'social@rousr.io',
-            pass: 'L3fthandfree'
+            user: frameSecureData.dev.username,
+            pass: frameSecureData.dev.password
         }
     },
     system: {
