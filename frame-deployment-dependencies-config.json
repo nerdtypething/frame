@@ -1,0 +1,8 @@
+{
+    "dev": {
+        "rousr-shared": "file:../../rousr-shared"
+    },
+    "prod": {
+        "rousr-shared": "file:../../rousr-shared"
+    }
+}
