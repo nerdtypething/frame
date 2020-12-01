@@ -207,7 +207,7 @@ const register = function (server, serverOptions) {
                     const user = await User.findOne(query);
 
                     if (!user) {
-                        throw Boom.badRequest('Invalid email or key.');
+                        throw Boom.badRequest('Invalid email.');
                     }
 
                     // rousr-mod: added this if
@@ -235,7 +235,7 @@ const register = function (server, serverOptions) {
             const keyMatch = await Bcrypt.compare(key, token);
 
             if (!keyMatch) {
-                throw Boom.badRequest('Invalid email or key.');
+                throw Boom.badRequest('Invalid key.');
             }
 
             // update user
