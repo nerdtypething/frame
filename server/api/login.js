@@ -1,7 +1,7 @@
 'use strict';
 
 const AuthAttempt = require('../models/auth-attempt');
-const Bcrypt = require('bcrypt');
+const Bcrypt = require('bcryptjs');
 const Boom = require('@hapi/boom');
 // rousr-mod: using rsrConfig
 const Config = require('../../rsrConfig');
