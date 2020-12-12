@@ -3,6 +3,6 @@
         "rousr-shared": "file:../../rousr-shared"
     },
     "prod": {
-        "rousr-shared": "file:../../rousr-shared"
+        "rousr-shared": "file:../rousr-shared"
     }
 }
