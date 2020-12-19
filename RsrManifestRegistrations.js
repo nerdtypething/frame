@@ -190,7 +190,7 @@ class RsrManifestRegistrations {
             }
         ];
 
-        if (process.env.RSR_API_IMP == 'mongo') {
+        if (process.env.RSR_DB_IMP == 'mongo') {
             plugins.push({
                 plugin: 'hapi-mongo-models',
                 options: {

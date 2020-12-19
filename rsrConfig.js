@@ -12,8 +12,7 @@ var frameSecureObject = new RousrFrameSecured('./RsrFrameSwazz.json');
 var frameSecureData = frameSecureObject.getSecureData();
 
 const criteria = {
-    rsrConfig: process.env.RSR_CONFIG,
-    rsrApiImplementation: process.env.RSR_API_IMP
+    rsrConfig: process.env.RSR_CONFIG
 };
 
 // rousr-mod: added an options object to the hapiMongoModels.mongodb object
