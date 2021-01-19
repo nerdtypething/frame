@@ -11,7 +11,7 @@ const NewDate = require('joistick/new-date');
 // rousr-mod: changing username from .token() to .email()
 const schema = Joi.object({
     _id: Joi.object(),
-    email: Joi.string().email().lowercase().required(),
+    email: Joi.string().lowercase().required(),
     isActive: Joi.boolean().default(true),
     password: Joi.string(),
     resetPassword: Joi.object({
@@ -29,7 +29,7 @@ const schema = Joi.object({
         })
     }).default(),
     timeCreated: Joi.date().default(NewDate(), 'time of creation'),
-    username: Joi.string().email().lowercase().required()
+    username: Joi.string().lowercase().required()
 });
 
 
