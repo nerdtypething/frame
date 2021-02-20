@@ -115,7 +115,7 @@ const register = function (server, serverOptions) {
         }
     });
 
-    // rsr-mod: added this POST for resendVerification
+    // rousr-mod: added this POST for resendVerification
     server.route({
         method: 'POST',
         path: '/api/resendVerification',
@@ -139,7 +139,7 @@ const register = function (server, serverOptions) {
             };
 
             try {
-                await Mailer.sendEmail(emailOptions, 'rousr-resend-verification', request.payload);
+                return await Mailer.sendEmail(emailOptions, 'rousr-resend-verification', request.payload);
             }
             catch (err) {
                 request.log(['mailer', 'error'], err);
